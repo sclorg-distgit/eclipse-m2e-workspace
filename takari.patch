@@ -1,0 +1,18 @@
+commit 2ac12b65d89eff4cd60261762793e5cd50398767
+Author: Sopot Cela <scela@redhat.com>
+Date:   Wed Oct 14 13:37:12 2015 +0200
+
+    proc tweak for takari
+
+diff --git a/org.eclipse.m2e.workspace.cli/pom.xml b/org.eclipse.m2e.workspace.cli/pom.xml
+index 94d9593..e013ae3 100644
+--- a/org.eclipse.m2e.workspace.cli/pom.xml
++++ b/org.eclipse.m2e.workspace.cli/pom.xml
+@@ -119,6 +119,7 @@
+         <extensions>true</extensions>
+         <version>1.11.4</version>
+         <configuration>
++	  <proc>none</proc>
+           <compilerId>jdt</compilerId>
+           <source>1.7</source>
+           <archive>
