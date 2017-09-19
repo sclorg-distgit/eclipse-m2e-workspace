@@ -2,7 +2,7 @@
 %{!?scl:%global pkg_name %{name}}
 %{?java_common_find_provides_and_requires}
 
-%global baserelease 2
+%global baserelease 3
 
 %global short_name m2e-workspace
 
@@ -54,7 +54,7 @@ rm src/main/java/org/eclipse/m2e/workspace/internal/Maven30WorkspaceReader.java
 
 # Avoid takari
 %pom_remove_plugin io.takari.maven.plugins:takari-lifecycle-plugin
-%pom_xpath_set pom:project/pom:packaging jar
+%pom_xpath_set pom:project/pom:packaging bundle
 %pom_add_plugin :maven-compiler-plugin '
 <configuration>
 <source>1.7</source>
@@ -69,6 +69,7 @@ rm src/main/java/org/eclipse/m2e/workspace/internal/Maven30WorkspaceReader.java
             </goals>
           </execution>
         </executions>'
+sed -i -e '/>maven-bundle-plugin</i<extensions>true</extensions>' -e '/<supportedProjectTypes/,+2d' pom.xml
 popd
 %{?scl:EOF}
 
@@ -98,6 +99,9 @@ popd
 %doc epl-v10.html
 
 %changelog
+* Fri Jan 20 2017 Mat Booth <mat.booth@redhat.com> - 0.4.0-4.3
+- Fix OSGi metadata
+
 * Fri Jan 20 2017 Mat Booth <mat.booth@redhat.com> - 0.4.0-4.2
 - Avoid takari plugins
 
