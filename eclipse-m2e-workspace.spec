@@ -2,7 +2,7 @@
 %{!?scl:%global pkg_name %{name}}
 %{?java_common_find_provides_and_requires}
 
-%global baserelease 3
+%global baserelease 4
 
 %global short_name m2e-workspace
 
@@ -65,11 +65,13 @@ rm src/main/java/org/eclipse/m2e/workspace/internal/Maven30WorkspaceReader.java
           <execution>
             <id>generate-index</id>
             <goals>
-              <goal>main-index</goal>
+              <goal>main-index</goal><goal>test-index</goal>
             </goals>
           </execution>
         </executions>'
-sed -i -e '/>maven-bundle-plugin</i<extensions>true</extensions>' -e '/<supportedProjectTypes/,+2d' pom.xml
+sed -i -e '/>maven-bundle-plugin</i<extensions>true</extensions>' \
+       -e '/<supportedProjectTypes/,+2d' \
+       -e '/Export-Package/a<Include-Resource>META-INF/sisu/javax.inject.Named=${project.build.outputDirectory}/META-INF/sisu/javax.inject.Named,{maven-resources}</Include-Resource>' pom.xml
 popd
 %{?scl:EOF}
 
@@ -99,6 +101,9 @@ popd
 %doc epl-v10.html
 
 %changelog
+* Wed Apr 12 2017 Mat Booth <mat.booth@redhat.com> - 0.4.0-4.4
+- Resolves: rhbz#1418963, m2e can't resolve dependencies from workspace
+
 * Fri Jan 20 2017 Mat Booth <mat.booth@redhat.com> - 0.4.0-4.3
 - Fix OSGi metadata
 
